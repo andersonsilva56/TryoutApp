@@ -7,7 +7,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import br.com.titans.tryout.constantes.TamanhoCamisaEnum;
+import net.minidev.json.annotate.JsonIgnore;
 
 @Entity
 public class Candidato {
@@ -19,12 +22,21 @@ public class Candidato {
 	private Integer idade;
 	private BigDecimal peso;
 	private BigDecimal altura;
+	@JsonProperty("tamanho_camisa")
 	private TamanhoCamisaEnum tamanhoCamisa;
+	@JsonProperty("contato_emergencia")
 	private String contatoEmergencia;
 	private String email;
 	private Integer telefone;
+	@JsonProperty("telefone_contato_emergencia")
 	private Integer telefoneContatoEmergencia;
 	private String fotografia;
+	@JsonProperty("inscricao_paga")
+	private boolean inscricaoPaga;
+	
+	public Candidato() {
+		this.inscricaoPaga = false;
+	}
 	
 	public Long getId() {
 		return id;
@@ -88,6 +100,14 @@ public class Candidato {
 	}
 	public void setFotografia(String fotografia) {
 		this.fotografia = fotografia;
+	}
+
+	public boolean isInscricaoPaga() {
+		return inscricaoPaga;
+	}
+
+	public void setInscricaoPaga(boolean inscricaoPaga) {
+		this.inscricaoPaga = inscricaoPaga;
 	}
 
 }
