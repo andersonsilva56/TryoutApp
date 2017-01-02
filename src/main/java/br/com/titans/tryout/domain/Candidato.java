@@ -9,8 +9,8 @@ import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import br.com.titans.tryout.constantes.Inscricao;
 import br.com.titans.tryout.constantes.TamanhoCamisaEnum;
-import net.minidev.json.annotate.JsonIgnore;
 
 @Entity
 public class Candidato {
@@ -32,10 +32,26 @@ public class Candidato {
 	private Integer telefoneContatoEmergencia;
 	private String fotografia;
 	@JsonProperty("inscricao_paga")
-	private boolean inscricaoPaga;
+	private Inscricao inscricao;
 	
 	public Candidato() {
-		this.inscricaoPaga = false;
+		
+		this.inscricao = Inscricao.NAO_PAGA;
+	}
+	
+	public Candidato(String nome, Integer idade, BigDecimal peso, BigDecimal altura, String tamanhoCamisa,
+			String contatoEmergencia, String email, Integer telefone, Integer telefonecontatoEmergencia) {
+		
+		this.nome = nome;
+		this.idade = idade;
+		this.peso = peso;
+		this.altura = altura;
+		this.tamanhoCamisa  = TamanhoCamisaEnum.get(tamanhoCamisa);
+		this.contatoEmergencia = contatoEmergencia;
+		this.email = email;
+		this.telefone = telefone;
+		this.telefoneContatoEmergencia = telefonecontatoEmergencia;
+		this.inscricao = Inscricao.NAO_PAGA;
 	}
 	
 	public Long getId() {
@@ -103,11 +119,55 @@ public class Candidato {
 	}
 
 	public boolean isInscricaoPaga() {
-		return inscricaoPaga;
+		
+		return Inscricao.PAGA.equals(inscricao);
 	}
 
-	public void setInscricaoPaga(boolean inscricaoPaga) {
-		this.inscricaoPaga = inscricaoPaga;
+	public Inscricao getInscricao() {
+		return inscricao;
 	}
 
+	public void setInscricao(Inscricao inscricao) {
+		this.inscricao = inscricao;
+	}
+
+	@Override
+	public int hashCode() {
+
+		final int prime = 31;
+		int result = 1;
+		result = prime * result	+ ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((this.getNome() == null) ? 0 : this.getNome().hashCode());
+		result = prime * result + ((this.getEmail() == null) ? 0 : this.getEmail().hashCode());
+		result = prime * result + ((this.getIdade() == null) ? 0 : this.getIdade().hashCode());
+		result = prime * result + ((this.getPeso() == null) ? 0 : this.getPeso().hashCode());
+		result = prime * result + ((this.getAltura() == null) ? 0 : this.getAltura().hashCode());
+		result = prime * result + ((this.getTelefone() == null) ? 0 : this.getTelefone().hashCode());
+		result = prime * result + ((this.getContatoEmergencia() == null) ? 0 : this.getContatoEmergencia().hashCode());
+		result = prime * result + ((this.getTelefoneContatoEmergencia() == null) ? 0 : this.getTelefoneContatoEmergencia().hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof Candidato)) {
+			return false;
+		}
+		Candidato other = (Candidato) obj;
+
+		return super.equals(obj) 
+				&&  this.id.equals(other.id)
+				&&  this.getNome().equals(other.getNome())
+				&&  this.getEmail().equals(other.getEmail())
+				&&  this.getIdade().equals(other.getIdade())
+				&&  this.getPeso().equals(other.getPeso())
+				&&  this.getAltura().equals(other.getAltura())
+				&&  this.getTelefone().equals(other.getTelefone())
+				&&  this.getContatoEmergencia().equals(other.getContatoEmergencia())
+				&&  this.getTelefoneContatoEmergencia().equals(other.getTelefoneContatoEmergencia());
+	}
 }
